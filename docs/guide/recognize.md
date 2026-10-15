@@ -24,6 +24,25 @@ req = pdf_to_verify_request(open("invoice.pdf", "rb").read())
 | `invoiceKind` | 票面文案推断 | `10`=数电普票，`08`=数电专票，`04`=普票 … |
 | `invoiceCode` / `checkCode` | 旧版纸票字段 | 数电票为空 |
 
+## 铁路电子客票（车票）
+
+车票也是带文本层的 PDF，可直接识别。`extra` 会返回车票专属字段：
+
+| `extra` 字段 | 含义 |
+| --- | --- |
+| `trainNo` | 车次，如 `G19` |
+| `travelDate` | 乘车日期 `YYYYMMDD` |
+| `departureStation` / `arrivalStation` | 出发 / 到达站（按票面顺序，个别版式可能需对调） |
+| `seatClass` | 席别（二等座 / 一等座 / 商务座 …） |
+| `carriage` | 车厢，如 `06车` |
+| `passengerName` / `passengerId` | 乘车人姓名 / 证件号（脱敏） |
+| `ticketNo` | 电子客票号 |
+
+```python
+req = pdf_to_verify_request(open("ticket.pdf", "rb").read())
+print(req.extra["trainNo"], req.extra["departureStation"], req.extra["arrivalStation"])
+```
+
 ## 与查验的关系
 
 识别出的 `VerifyRequest` 可直接喂给 `POST /v1/verify`（单张）或 `POST /v1/verify/batch`（批量），实现「上传文件 → 识别 → 查验」一条龙。文件直接查验见 [文件 / PDF 查验](./verify-file)。
