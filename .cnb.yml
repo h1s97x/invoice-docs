@@ -1,0 +1,16 @@
+# invoice-docs：独立的「发票查验引擎」文档站（VitePress）。
+# 与引擎代码仓库 h1s97x/whccb/invoice-verify-engine 分离，仅承载文档。
+# 推到默认分支即触发 CNB Pages 自动构建并发布。
+pages:
+  build:
+    docker:
+      image: node:22
+    stages:
+      - name: 拉取引擎仓以比对端点（缺失则跳过代码侧比对）
+        script:
+          - git clone --depth 1 https://cnb.cool/h1s97x/whccb/invoice-verify-engine.git /tmp/engine || echo "clone 失败，端点闸门将仅校验文档侧"
+      - name: 安装依赖与构建文档
+        script:
+          - npm install
+          - ENGINE_DIR=/tmp/engine npm run check:endpoints
+          - npm run docs:build
