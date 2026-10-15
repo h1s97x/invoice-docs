@@ -60,6 +60,8 @@ curl -X POST http://localhost:8000/v1/recognize \
 }
 ```
 
+> ⚠️ `extra.departureStation` / `arrivalStation` 为票面文本顺序，个别版式会反；权威方向请看查验结果 `invoiceDetail.key2`（`cfz`=出发站、`ddz`=到达站）。
+
 ## 说明
 
 - 抽取基于文件文本层（PDF 用 pypdf、OFD 解 zip 取 XML 文本），**不依赖 OCR**，无需调云厂商。

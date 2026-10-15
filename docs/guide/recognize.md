@@ -43,6 +43,8 @@ req = pdf_to_verify_request(open("ticket.pdf", "rb").read())
 print(req.extra["trainNo"], req.extra["departureStation"], req.extra["arrivalStation"])
 ```
 
+> ⚠️ **出发/到达方向以查验结果为准**。`extra.departureStation` / `arrivalStation` 仅按票面文本顺序抽取，个别版式会反（本示例实为 **济南西 → 南京南**，而非文本顺序的 南京南→济南西）。`POST /v1/verify/file` 返回的 `invoiceDetail.key2` 为权威来源：`cfz`=出发站、`ddz`=到达站、`cccc`=车次、`xm`=姓名、`dzkph`=电子客票号、`rq`=乘车日期、`xb`=席别、`cx`=车厢、`se`=税额、`slv`=税率、`jshj`=价税合计、`cfsj`=出发时间。识别只做离线抽字段，方向对齐请以查验为准。
+
 ## 与查验的关系
 
 识别出的 `VerifyRequest` 可直接喂给 `POST /v1/verify`（单张）或 `POST /v1/verify/batch`（批量），实现「上传文件 → 识别 → 查验」一条龙。文件直接查验见 [文件 / PDF 查验](./verify-file)。
