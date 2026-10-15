@@ -3,14 +3,14 @@
 // 若 ENGINE_DIR 下找不到 app/main.py（如独立的文档仓未携带引擎代码），
 // 则退化为「仅校验文档侧」：每个 API 页都需含 path:，且不重复。
 //
-// 用法: ENGINE_DIR=/path/to/engine node docs/scripts/check-endpoints.mjs
+// 用法: ENGINE_DIR=/path/to/engine node scripts/check-endpoints.mjs
 // 退出码 1 = 不一致或文档侧非法。
 
 import { readFileSync, readdirSync, existsSync } from "node:fs"
 import { join, dirname } from "node:path"
 import { fileURLToPath } from "node:url"
 
-const root = join(dirname(fileURLToPath(import.meta.url)), "../..")
+const root = join(dirname(fileURLToPath(import.meta.url)), "..")
 const engineDir = process.env.ENGINE_DIR || root
 const mainPyPath = join(engineDir, "app/main.py")
 
@@ -29,7 +29,7 @@ if (existsSync(mainPyPath)) {
 }
 
 // 2) 文档侧 path（含 aliases）
-const apiDir = join(root, "docs/api")
+const apiDir = join(root, "api")
 const docPaths = new Set()
 let docCount = 0
 for (const f of readdirSync(apiDir)) {

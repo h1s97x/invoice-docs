@@ -1,7 +1,7 @@
 import { defineConfig } from "vitepress"
 
 // VitePress 配置：导航 / 侧边栏 / 本地搜索。
-// 站点源在 docs/ 下（index.md 为入口），构建产物默认在 docs/.vitepress/dist。
+// 站点源在仓库根目录（index.md 为入口），构建产物默认在 .vitepress/dist。
 export default defineConfig({
   title: "发票查验引擎 · 文档",
   description:
